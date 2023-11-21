@@ -8,16 +8,21 @@ from itertools import groupby
 #
 # FUNCTIONS
 #
-def on_click(r, c):
-    c_btn = button_list[r][c]
+def on_click(e):
     global player, moves
     
+    # check if button is disabled via state (because the <Button-1> event is bound, it ignores state [for whatever reason])
+    if e.widget['state'] == "disabled":
+        return 
+    
     # if text is blank, a move hasn't been played here yet
-    if c_btn['text'] != " ":
+    if e.widget['text'] != " ":
         return
-
-    # set text on button
-    c_btn['text'] = player
+    
+    # disable button since this space has now been played
+    e.widget['state'] = "disabled"
+    on_leave(e)
+    e.widget['text'] = player
     moves += 1
 
     # check win
@@ -106,13 +111,12 @@ board_size = 8
 player = "X"
 moves = 0
 
-# create correct size button_list button_list = [[0] * board_size] * board_size
+# create correct size button_list 
 for i in range(board_size):
     a = []
     for j in range(board_size):
         a.append(0)
     button_list.append(a)
-
 
 # store label in it's own frame
 frm_title = tk.Frame(master=window)
@@ -136,11 +140,10 @@ for i in range(board_size):
             text = f" ",
             padx=5,
             pady=5,
-            #relief="flat", # button style 
-            command = lambda r = i, c = j : on_click(r,c) # command sets the function to be called when button is clicked
         )
-        btn.bind("<Enter>", on_enter)
-        btn.bind("<Leave>", on_leave)
+        btn.bind("<ButtonRelease-1>", on_click) # left click
+        btn.bind("<Enter>", on_enter) # mouse enters box
+        btn.bind("<Leave>", on_leave) # mouse exits box
         btn.grid(row=i, column=j, sticky="nesw")
         button_list[i][j] = btn
     frm_board.rowconfigure(i, weight=1)
