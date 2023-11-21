@@ -112,11 +112,7 @@ player = "X"
 moves = 0
 
 # create correct size button_list 
-for i in range(board_size):
-    a = []
-    for j in range(board_size):
-        a.append(0)
-    button_list.append(a)
+button_list = [[0] * board_size] * board_size
 
 # store label in it's own frame
 frm_title = tk.Frame(master=window)
