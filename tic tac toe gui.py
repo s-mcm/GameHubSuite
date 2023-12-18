@@ -19,17 +19,12 @@ class tictactoe(tk.Tk):
         self.wm_title("Test Application")
         self.columnconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
-        self.minsize(300,300) 
+        self.minsize(300,300)
 
         # VARIABLES
         self.player = "X"
         self.moves = 0
         self.button_list = []
-        for i in range(self.board_size):
-            a = []
-            for j in range(self.board_size):
-                a.append(0)
-            self.button_list.append(a)
 
         # TITLE
         frm_title = tk.Frame(self)
@@ -45,6 +40,7 @@ class tictactoe(tk.Tk):
         frm_board = tk.Frame(self)
         frm_board.grid(row=1, column=0, padx=25, pady=25, sticky="nesw")
         for i in range(self.board_size):
+            bntl = []
             for j in range(self.board_size):
                 btn = tk.Button(
                     master=frm_board,
@@ -55,9 +51,10 @@ class tictactoe(tk.Tk):
                 btn.bind("<Enter>", self.on_enter) # mouse enters box
                 btn.bind("<Leave>", self.on_leave) # mouse exits box
                 btn.grid(row=i, column=j, sticky="nesw")
-                self.button_list[i][j] = btn
+                bntl.append(btn)
             frm_board.rowconfigure(i, weight=1)
             frm_board.columnconfigure(i, weight=1)
+            self.button_list.append(bntl)
 
         # FOOTER
         frm_footer = tk.Frame(self)
