@@ -8,18 +8,18 @@ from itertools import groupby
 #
 # CLASSES
 #
-class tictactoe(tk.Tk):
+class tictactoe(tk.Frame):
 
     board_size = 4
 
     # class constructor
-    def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self, *args, **kwargs)
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
 
-        self.wm_title("Test Application")
+#        self.title("Tic Tac Toe")
         self.columnconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
-        self.minsize(300,300)
+        self.rowconfigure(0, weight=1)
+#        self.minsize(300,300)
 
         # VARIABLES
         self.player = "X"
@@ -76,8 +76,7 @@ class tictactoe(tk.Tk):
             padx=5,
             pady=5,
             relief="flat",
-            highlightcolor="blue",
-            command = self.destroy,)
+            command = self.destroy)
         btn_exit.bind("<Enter>", self.on_enter)
         btn_exit.bind("<Leave>", self.on_leave)
         btn_exit.grid(row=0, column=1, padx=5, pady=5, sticky="nesw")
@@ -176,5 +175,3 @@ class tictactoe(tk.Tk):
 #
 # MAIN
 #
-obj = tictactoe()
-obj.mainloop()
